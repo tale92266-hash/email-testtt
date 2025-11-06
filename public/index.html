@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Render Free Tier Email Test</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000a1a;
+            color: #cdeaff;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            padding: 40px;
+            border-radius: 12px;
+            background: #001133;
+            border: 2px solid #00ffdd;
+            box-shadow: 0 0 20px #00ffdd55;
+            max-width: 400px;
+            width: 90%;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #ff3399; /* Nobita Pink */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        button:hover:not(:disabled) {
+            background-color: #ff55aa;
+        }
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        #message {
+            margin-top: 25px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Render Email Test</h1>
+        <p>OAuth2 Method Check</p>
+        <p>Target: <strong>samshaad365@gmail.com</strong></p>
+        
+        <button id="sendEmailBtn">
+            ✉️ Send Test Email
+        </button>
+
+        <div id="message">Click the button to start test.</div>
+    </div>
+
+    <script>
+        document.getElementById('sendEmailBtn').addEventListener('click', async () => {
+            const messageElement = document.getElementById('message');
+            const button = document.getElementById('sendEmailBtn');
+            
+            messageElement.style.backgroundColor = '#002244';
+            messageElement.style.color = 'yellow';
+            messageElement.textContent = 'Sending email... This may take up to 30 seconds on Render Free Tier...';
+            button.disabled = true;
+
+            try {
+                // Hitting the new API route
+                const response = await fetch('/api/test/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    messageElement.style.backgroundColor = '#005500';
+                    messageElement.style.color = 'lime';
+                    messageElement.textContent = `✅ SUCCESS! ${data.message} (ID: ${data.messageId})`;
+                } else {
+                    // Handle 500 or non-success response from server
+                    messageElement.style.backgroundColor = '#550000';
+                    messageElement.style.color = 'red';
+                    messageElement.textContent = `❌ FAIL! Server Response: ${data.message}`;
+                }
+            } catch (error) {
+                // Handle network error (e.g., server unreachable)
+                messageElement.style.backgroundColor = '#553300';
+                messageElement.style.color = 'yellow';
+                messageElement.textContent = `❌ CRITICAL NETWORK ERROR: Could not reach the Render server or request timed out. Check server logs.`;
+                console.error('Fetch error:', error);
+            } finally {
+                button.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
