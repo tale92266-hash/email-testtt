@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nobita Email Relay Service</title>
+    <title>Nobita Service Status</title>
     <style>
-        /* CSS Code yahan shuru hota hai */
+        /* Simple, Dark Theme CSS */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000a1a;
-            color: #cdeaff;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000a1a; /* Very Dark Blue */
+            color: #cdeaff; /* Light Blue-Grey Text */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,55 +19,64 @@
         }
         .container {
             padding: 40px;
-            border: 2px solid #00ffdd;
-            border-radius: 10px;
-            background-color: #001133;
-            box-shadow: 0 0 20px #00ffdd50;
+            border: 2px solid #00ffdd; /* Cyan Border */
+            border-radius: 12px;
+            background-color: #001133; /* Darker Blue */
+            box-shadow: 0 0 16px #00ffdd50;
             max-width: 90%;
-            width: 500px;
+            width: 450px;
         }
         h1 {
-            color: #00ffdd;
-            font-size: 1.8em;
+            color: #ff3399; /* Pink Heading */
+            font-size: 2.2em;
             margin-bottom: 10px;
-        }
-        p {
-            font-size: 1.1em;
-            margin: 15px 0;
-            line-height: 1.6;
+            text-transform: uppercase;
         }
         .status-box {
-            background-color: #000814;
-            color: #92fe9d;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
+            background-color: #000814; 
+            color: #92fe9d; /* Light Green for OK */
+            padding: 12px;
+            border-radius: 6px;
+            margin: 30px 0;
+            font-size: 1.1em;
             font-weight: bold;
             display: inline-block;
             border: 1px solid #92fe9d;
+            box-shadow: 0 0 8px #92fe9d40;
         }
-        .app-link {
-            color: #ff3399;
-            text-decoration: none;
-            font-weight: bold;
+        p {
+            font-size: 1.1em;
+            margin-top: 20px;
+            color: #cdeaff;
         }
-        /* CSS Code yahan khatam hota hai */
+        code {
+            color: #00ffdd;
+            background: #111;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        .nobita-note {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #778899;
+            margin-top: 25px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>👾 NOBITA Email Relay Service (Vercel)</h1>
+        <h1>NOBI BOT 👾</h1>
         <p>
-            यह सर्वरलेस फ़ंक्शन **Nobita Feedback App** के लिए एक डेडिकेटेड ईमेल प्रॉक्सी के रूप में कार्य करता है।
+            This is a **Core System** Service.
         </p>
         <div class="status-box">
-            ✅ Status: API Service Running (Connected to Render)
+            ✅ SERVICE STATUS: ONLINE
         </div>
         <p>
-            ईमेल रिक्वेस्ट्स को Secure API Endpoint <code style="color: #ff3399; background: #220011; padding: 2px 4px; border-radius: 3px;">/api/send-email</code> पर प्रोसेस किया जा रहा है।
+            All critical functions for the **Nobita Feedback App** are running.
         </p>
-        <p style="font-size: 0.9em; margin-top: 30px; color: #778899;">
-            Powered by Vercel Functions.
+        <p class="nobita-note">
+            "Power doesn't reset — it regenerates."
         </p>
     </div>
 </body>
