@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
         const transporter = await createTransporter();
         
         const mailOptions = { 
-            from: `"Nobita Feedback App" <${GMAIL_USER}>`, // From address will be consistent
+            from: `"👉𝘕𝘖𝘉𝘐 𝘉𝘖𝘛🤟" <${GMAIL_USER}>`, // From address will be consistent
             to, 
             subject, 
             html, 
