@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     try {
         const mailOptions = { 
             // Using the ORIGINAL 'From' name from email-testtt repo
-            from: `"👉𝘕𝘖B𝘐 𝘉O𝘛🤟" <${GMAIL_USER}>`, 
+            from: `"👉𝙉𝙊𝘽𝙄 𝘽𝙊𝙏🤟" <${GMAIL_USER}>`, 
             to, 
             subject, 
             html, // Comma is present here
