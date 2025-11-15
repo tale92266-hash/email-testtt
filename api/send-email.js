@@ -36,33 +36,10 @@ module.exports = async (req, res) => {
     try {
         const mailOptions = { 
             // Using the ORIGINAL 'From' name from email-testtt repo
-            from: `"👉𝘕𝘖𝘉𝘐 𝘉𝘖𝘛🤟" <${GMAIL_USER}>`, 
+            from: `"👉𝘕𝘖B𝘐 𝘉O𝘛🤟" <${GMAIL_USER}>`, 
             to, 
             subject, 
-            html, // Sending the HTML that came from the request body
-            text: text || ''
-        };
-
-        let info = await transporter.sendMail(mailOptions);
-        
-        // 3. Success Response
-        return res.status(200).json({ 
-            success: true, 
-            message: 'Email sent successfully via Vercel API (App Pass).',
-            messageId: info.messageId
-        });
-
-    } catch (error) {
-        console.error('❌ Vercel Function Email Send Error:', error);
-        // 4. Error Response
-        return res.status(500).json({ 
-            success: false, 
-            message: `Failed to send email: ${error.message}`
-        });
-    }
-};            to, 
-            subject, 
-            html, 
+            html, // Comma is present here
             text: text || ''
         };
 
