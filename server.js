@@ -7,41 +7,30 @@ const path = require('path');
 dotenv.config();
 const app = express();
 
-// --- Zaroori Middleware ---
-// body-parser ki zaroorat nahi, Express me built-in hai
+// Set Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'))); // 'public' folder ko serve karne ke liye
+app.use(express.static(path.join(__dirname, 'public'))); 
 
-// --- Environment Variables Configuration ---
-// OAuth wale variables (CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN) ab use nahi honge
+// Set ENV Vars
 const GMAIL_USER = process.env.EMAIL_USER;
-const GMAIL_PASS = process.env.EMAIL_PASS; // App Password yahan aayega
+const GMAIL_PASS = process.env.EMAIL_PASS; 
 const PORT = process.env.PORT || 5000;
 
-
-// -----------------------------------------------------------------------
-// 💡 APP PASSWORD EMAIL SERVICE LOGIC (Like 'email' repo)
-// -----------------------------------------------------------------------
-
-// Transporter setup (Simple App Password)
+// Setup Transporter
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: GMAIL_USER, // Yeh apka EMAIL_USER hai
-        pass: GMAIL_PASS  // Yeh apka App Password hai
+        user: GMAIL_USER, 
+        pass: GMAIL_PASS  
     }
 });
 
-// -----------------------------------------------------------------------
-// 🌐 API ROUTE (Same as 'email' repo)
-// -----------------------------------------------------------------------
+// Setup API Route
 app.post('/send-email', (req, res) => {
-    // Client-side se aaye data ko lo
     const { recipient, subject, message } = req.body;
 
     if (!recipient || !subject || !message) {
-        // Short comment (User instruction)
         return res.status(400).json({ success: false, message: '❌ Sabhi fields bharna zaroori hai: recipient, subject, aur message.' });
     }
 
@@ -50,14 +39,13 @@ app.post('/send-email', (req, res) => {
         to: recipient,
         subject: subject,
         text: message,
-        html: `<b>Hello!</b><br><br>Aapka message:<br><i>${message}</i>` // Simple HTML
+        html: message 
     };
 
-    // Mail send karo
+    // Send Email
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('❌ Error sending mail:', error.message);
-            // Free solution (User instruction)
             return res.status(500).json({ 
                 success: false, 
                 message: 'Mail bhejte samay error aa gaya. Server logs dekho.' 
@@ -72,12 +60,8 @@ app.post('/send-email', (req, res) => {
     });
 });
 
-
-// -----------------------------------------------------------------------
-// 🚀 SERVER START
-// -----------------------------------------------------------------------
+// Start Server
 app.listen(PORT, () => {
-    // Check for critical ENV vars on startup
     if (!GMAIL_USER || !GMAIL_PASS) {
         console.error("⚠️ CRITICAL: EMAIL_USER ya EMAIL_PASS ENV variables missing hain. Email fail hoga.");
     }
