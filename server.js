@@ -35,7 +35,7 @@ app.post('/send-email', (req, res) => {
     }
 
     const mailOptions = {
-        from: `"Nobita Bot (App Pass)" <${GMAIL_USER}>`,
+        from: `"Nobita Bot" <${GMAIL_USER}>`,
         to: recipient,
         subject: subject,
         text: message,
@@ -65,5 +65,5 @@ app.listen(PORT, () => {
     if (!GMAIL_USER || !GMAIL_PASS) {
         console.error("⚠️ CRITICAL: EMAIL_USER ya EMAIL_PASS ENV variables missing hain. Email fail hoga.");
     }
-    console.log(`🚀 Nobita's Email (App Pass) Server running on port ${PORT}`);
+    console.log(`🚀 Nobita's Email Server running on port ${PORT}`);
 });
