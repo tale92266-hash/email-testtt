@@ -1,4 +1,4 @@
-// server.js (Updated with Smart Template Router)
+// server.js (Updated with Smart Template Router & Backward Compatibility)
 const express = require('express');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-// Helper: Beautiful HTML OTP Template
+// Helper: Beautiful HTML OTP Template (ORIGINAL - DO NOT MODIFY)
 const getOtpTemplate = (otp) => `
 <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
     <div style="background-color: #0f172a; padding: 25px; text-align: center;">
@@ -49,24 +49,53 @@ const getOtpTemplate = (otp) => `
 </div>
 `;
 
+// Helper: Beautiful HTML Reset Link Template (NEW - ADDED FOR CHATVERSE)
+const getResetTemplate = (resetLink) => `
+<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background-color: #ffffff;">
+    <div style="background-color: #0f172a; padding: 25px; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 1px;">VerifyHub Security</h1>
+    </div>
+    <div style="padding: 40px 30px; text-align: center; color: #334155;">
+        <h2 style="font-size: 20px; margin-top: 0; color: #1e293b;">Password Reset Request</h2>
+        <p style="font-size: 16px; line-height: 1.6; margin-bottom: 30px;">We received a request to reset the password for your account. Click the button below to set a new password securely.</p>
+
+        <div style="margin: 35px 0;">
+            <a href="${resetLink}" style="background-color: #2563eb; color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; display: inline-block; transition: background-color 0.3s;">Reset Password</a>
+        </div>
+
+        <p style="font-size: 14px; color: #64748b; margin-top: 30px;">Or copy and paste this link into your browser:</p>
+        <p style="font-size: 12px; color: #2563eb; word-break: break-all;">${resetLink}</p>
+    </div>
+    <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+        <p style="font-size: 12px; color: #94a3b8; margin: 0;">If you did not request a password reset, please ignore this email or contact support.</p>
+        <p style="font-size: 12px; color: #94a3b8; margin: 5px 0 0 0;">&copy; ${new Date().getFullYear()} VerifyHub Native Node Engine</p>
+    </div>
+</div>
+`;
+
 // Setup API Route
 app.post('/send-email', (req, res) => {
-    // Handle all possible incoming payload styles
-    const { recipient, to, subject, message, html, text, type, otp } = req.body;
+    // Handle all possible incoming payload styles safely
+    const { recipient, to, subject, message, html, text, type, otp, resetLink } = req.body;
     const finalTo = recipient || to;
 
     if (!finalTo || !subject) {
         return res.status(400).json({ success: false, message: '❌ Sabhi fields bharna zaroori hai: recipient/to aur subject.' });
     }
 
-    // Smart Template Router
+    // Smart Template Router: Default to whatever the old websites were sending
     let finalHtml = html || message || ''; 
     let finalText = text || '';
 
-    // If the API call explicitly requests an OTP type, override with OTP template
+    // Old Website Logic: If explicitly requests an OTP type, use OTP template
     if (type === 'otp' && otp) {
         finalHtml = getOtpTemplate(otp);
         finalText = `VerifyHub Login OTP: ${otp}`;
+    }
+    // New ChatVerse Logic: If explicitly requests a Reset type, use Reset template
+    else if (type === 'reset' && resetLink) {
+        finalHtml = getResetTemplate(resetLink);
+        finalText = `Reset your password using this link: ${resetLink}`;
     }
 
     const mailOptions = {
