@@ -1,27 +1,8 @@
 {
-  "name": "nobita-test-app",
+  "name": "render-free-test-sam",
   "version": "1.0.0",
-  "description": "Email OAuth2 Test for Render Free Tier",
+  "description": "Free web service test - GitHub to Render auto deploy by Nobi Bot",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "keywords": [
-    "render",
-    "oauth2",
-    "nodemailer",
-    "test"
-  ],
-  "author": "NOBITA",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "googleapis": "^140.0.0",
-    "nodemailer": "^6.9.13"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
 }
